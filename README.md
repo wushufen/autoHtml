@@ -1,6 +1,6 @@
 # autoHtml README
 
-这是一个 `vscode` 插件，实时自动通过 `diff` 算法对比 `css tree` 和 `dom tree` 差异更新生成 `html` ，可解放绝大部分的 `html` 书写。
+这是一个 `vscode` 插件，实时通过 `diff` 算法对比 `css tree` 和 `dom tree` 差异更新，自动帮你写 `html` ，可解放绝大部分的 `html` 书写。
 
 正在完善中，暂未发布到 `store`
 
