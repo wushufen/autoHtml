@@ -1,0 +1,5 @@
+var state = {
+  data: {
+    children: []
+  },
+}
