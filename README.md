@@ -9,3 +9,11 @@
 ![console](autoHtml.gif)  
 
 后代选择器 `.parent .grandchild` 和 子选择器 `.parent > .child` 都会先生成子节点，后代选择器生成的节点可自行改变层级，不会重复生成。
+
+## 计划
+
+**输入样式**
+ `css`, `less`, `scss`, `sass`, `stylus`
+ 
+ **输出代码**
+ `html`, `vue`, `react`
