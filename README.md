@@ -5,8 +5,7 @@
 正在完善中，暂未发布到 `store`
 
 ## 演示
-
-![autoHtml.gif](autoHtml.gif)  
+![autoHtml.gif](https://wusfen.github.io/autoHtml/autoHtml.gif)  
 
 后代选择器 `.parent .grandchild` 和 子选择器 `.parent > .child` 都会先生成子节点，后代选择器生成的节点可自行改变层级，不会重复生成。
 
