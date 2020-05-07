@@ -1,8 +1,9 @@
 # autoHtml README
 
-这是一个 `vscode` 插件，实时通过 `diff` 算法对比 `css tree` 和 `dom tree` 差异更新，自动帮你写 `html` ，可解放绝大部分的 `html` 书写。
+这是一个本人开发的一个 `vscode` 插件，它可以根据你写的 `css` 实时帮你书写对应的 `html`  
+这不是简单的替换，而是根据 `css + dom diff` 算法，来计算出缺少的 `html` 节点，自动帮你写 `html` ，不影响已存在的代码。可解放绝大部分的 `html` 书写，大大节省你的时间。
 
-正在完善中，暂未发布到 `store`
+暂未发布到 `store`
 
 ## 演示
 ![autoHtml.gif](https://wusfen.github.io/autoHtml/autoHtml.gif)  
