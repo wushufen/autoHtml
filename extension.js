@@ -42,6 +42,10 @@ let self = {
     var range = new vscode.Range(startPosition, endPosition)
     var tpl = text.substring(startIndex, endIndex)
 
+    if (text.indexOf('<template>')==-1) {
+      return
+    }
+    
     return {
       tpl: tpl,
       range: range,
@@ -50,6 +54,10 @@ let self = {
   async updateHtml() {
     var lessCode = this.getLessCode()
     var template = this.findTemplate()
+
+    if (!template) {
+      return
+    }
 
     var html = await updateHtmlByLess(lessCode, template.tpl)
 

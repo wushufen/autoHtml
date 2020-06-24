@@ -43,6 +43,10 @@ function getTagNameAndFirstClassName(selector) {
       }
     }
 
+    if (className == '&') {
+      return
+    }
+
     return {
       combinatorValue,
       isChild: combinatorValue === '>', // 直接子节点
@@ -111,6 +115,8 @@ function insertChildNode(node, childNode, nextChildNode) {
 }
 
 async function createHtmlByLess(lessCode, htmlCode) {
+  lessCode = lessCode.replace(/@.*/ig, '')
+
   var rule = await less.parse(lessCode)
   var node = ((document.body.innerHTML = htmlCode), document.body)
   // console.log(rule, node)
