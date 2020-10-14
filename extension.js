@@ -1,19 +1,20 @@
 const vscode = require('vscode')
-const jsdom = require('jsdom')
 const updateHtmlByLess = require('./updateHtmlByLess')
 
 let self = {
+  enableFileMap: {},
+  statusBarItem: null,
   getText() {
     return vscode.window.activeTextEditor.document.getText()
   },
   getLessCode() {
     var text = this.getText()
-    var lessCode = (text.match(/<style.*?>([\s\S]*?)<\/style>/) || [])[1] || ''
+    var lessCode = text.match(/<style.*?>([^]*?)<\/style>|$/)[1] || ''
     return lessCode
   },
   getHtmlCode() {
     var text = this.getText()
-    var lessCode = (text.match(/<template.*?>([\s\S]*?\n)<\/template>/) || [])[1] || ''
+    var lessCode = text.match(/<template.*?>([^]*?\n)<\/template>|$/)[1] || ''
     return lessCode
   },
   getPositionByIndex(index) {
@@ -42,10 +43,10 @@ let self = {
     var range = new vscode.Range(startPosition, endPosition)
     var tpl = text.substring(startIndex, endIndex)
 
-    if (text.indexOf('<template>')==-1) {
+    if (text.indexOf('<template>') == -1) {
       return
     }
-    
+
     return {
       tpl: tpl,
       range: range,
@@ -70,25 +71,65 @@ let self = {
 
     return html
   },
+  setStatusBarItem() {
+    this.statusBarItem = this.statusBarItem || vscode.window.createStatusBarItem()
+    this.statusBarItem.command = 'autoHtml:toggle'
+    this.statusBarItem.show()
+
+    // text
+    if (vscode.window.activeTextEditor) {
+      var fileName = vscode.window.activeTextEditor.document.fileName
+      this.statusBarItem.text = `autoHtml${this.enableFileMap[fileName] ? '💚' : '💔'}`
+      console.log(this.statusBarItem.text, fileName)
+    } else {
+      this.statusBarItem.text = ''
+    }
+  },
   registerCommand() {
-    vscode.commands.registerCommand('autoHtml', async () => {
-      this.updateHtml()
+    vscode.commands.registerCommand('autoHtml:enable', async () => {
+      var fileName = vscode.window.activeTextEditor.document.fileName
+      this.enableFileMap[fileName] = true
+      this.setStatusBarItem()
+
+      console.log('autoHtml:endable', fileName) // 无法打印？
+    })
+    vscode.commands.registerCommand('autoHtml:disable', () => {
+      var fileName = vscode.window.activeTextEditor.document.fileName
+      delete this.enableFileMap[fileName]
+      this.setStatusBarItem()
+    })
+    vscode.commands.registerCommand('autoHtml:toggle', () => {
+      var fileName = vscode.window.activeTextEditor.document.fileName
+      if (this.enableFileMap[fileName]) {
+        delete this.enableFileMap[fileName]
+      } else {
+        this.enableFileMap[fileName] = true
+      }
+      this.setStatusBarItem()
     })
   },
   onSave() {
     vscode.workspace.onWillSaveTextDocument((e) => {
+      var fileName = vscode.window.activeTextEditor.document.fileName
+      console.log(fileName)
+      var enable = this.enableFileMap[fileName]
+      if (!enable) return
       this.updateHtml()
     })
   },
   activate(context) {
     this.registerCommand()
+
+    this.setStatusBarItem()
+    vscode.window.onDidChangeActiveTextEditor(e => {
+      this.setStatusBarItem()
+    })
     this.onSave()
   },
   deactivate() {
     console.log('deactivate')
   },
 }
-
 
 
 module.exports = {

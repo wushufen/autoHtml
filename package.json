@@ -2,7 +2,8 @@
 	"name": "autoHtml",
 	"displayName": "autoHtml",
 	"description": "autoHtml",
-	"version": "0.0.1",
+	"version": "0.0.2",
+	"publisher":"wushufen",
 	"engines": {
 		"vscode": "^1.33.0"
 	},
@@ -10,14 +11,22 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:autoHtml"
+		"*"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "autoHtml",
-				"title": "autoHtml"
+				"command": "autoHtml:enable",
+				"title": "autoHtml:enable"
+			},
+			{
+				"command": "autoHtml:disable",
+				"title": "autoHtml:disable"
+			},
+			{
+				"command": "autoHtml:toggle",
+				"title": "autoHtml:toggle"
 			}
 		]
 	},
